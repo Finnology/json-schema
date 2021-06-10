@@ -164,7 +164,11 @@ class UndefinedConstraint extends Constraint
 
         // Verify type
         if (!($value instanceof self)) {
-            $this->checkType($value, $schema, $path, $i);
+            //Workaround for null values - Vojta
+            $schemaData = get_object_vars($schema);
+            if (!($schemaData['x-nullval'] === true && $value === null)){
+                $this->checkType($value, $schema, $path, $i);
+            }
         }
 
         // Verify disallowed items
